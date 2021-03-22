@@ -28,4 +28,26 @@ var app = http.createServer(
 		).resume();
 	}
 ).listen(port);
-console.log('Hurray, we are running');		
+console.log('Hurray, we are running');
+
+
+
+var io = require('socket.io')(app);
+
+io.sockets.on('connection', function (socket){
+	function log(){
+		var array = ['*** Server Log Message: '];
+		for(let i = 0; i < arguments.length; i++){
+			array.push(arguments[i]);
+			console.log(arguments[i]);
+		}
+		socket.emit('log', array);
+		socket.broadcast.emit('log',array);
+	}
+
+	log("a web site connected to the server");
+
+	socket.on('disconnect', function(socket){
+		log("a web site disconnected to the server");
+	});
+});

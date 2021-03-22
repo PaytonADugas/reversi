@@ -18,3 +18,12 @@ if(username == null){
 }
 
 $('#messages').append('<h3>'+username+'<h3>');
+
+
+/* connect to socket Server*/
+
+var socket = io.connect();
+
+socket.on('log',function(array)){
+  console.log.apply(console,array);
+});
